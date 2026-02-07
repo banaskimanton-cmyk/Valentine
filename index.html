@@ -1,59 +1,134 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Portfolio | Kim Anton Banas</title>
-  <link rel="stylesheet" href="style.css">
+<meta charset="UTF-8">
+<title>Be My Valentine</title>
+
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background: #ffccd5;
+        text-align: center;
+        overflow: hidden;
+        margin-top: 120px;
+        transition: 0.5s;
+    }
+
+    h1 {
+        color: #c9184a;
+        font-size: 42px;
+    }
+
+    .btn {
+        padding: 15px 30px;
+        font-size: 20px;
+        border: none;
+        border-radius: 12px;
+        cursor: pointer;
+        margin: 10px;
+        transition: 0.3s;
+        position: relative;
+    }
+
+    #yesBtn {
+        background-color: #ff4d6d;
+        color: white;
+    }
+
+    #noBtn {
+        background-color: #555;
+        color: white;
+        position: absolute;
+        left: 55%;
+        top: 55%;
+    }
+
+    #message {
+        font-size: 40px;
+        color: white;
+        margin-top: 40px;
+        display: none;
+        font-weight: bold;
+        text-shadow: 2px 2px 5px black;
+    }
+
+    /* BIG HEART BACKGROUND */
+    .heart-bg {
+        background: #ff4d6d;
+    }
+
+    .heart-bg::before {
+        content: "❤";
+        font-size: 400px;
+        color: #ff1744;
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        opacity: 0.25;
+        z-index: -1;
+    }
+</style>
 </head>
 
 <body>
 
-  <!-- Navigation -->
-  <header class="nav">
-    <h1 class="logo">DXSign</h1>
-    <nav>
-      <a href="#project">Project</a>
-      <a href="#about">About</a>
-      <a href="#contact">Contact</a>
-    </nav>
-  </header>
+<h1 id="title">Can You Be My Valentine? 💖</h1>
 
-  <!-- Hero / Portfolio Intro -->
-  <section class="portfolio">
-    <h2>Designer focused on clarity & emotion.</h2>
-    <p>I design minimal and interactive interfaces.</p>
-  </section>
+<button id="yesBtn" class="btn">Yes</button>
+<button id="noBtn" class="btn">No</button>
 
-  <!-- Projects -->
-  <section id="project" class="project">
-    <h3>Projects</h3>
-    <div class="grid">
-      <div class="card">UI/UX Design</div>
-      <div class="card">System Design</div>
-      <div class="card">Animation</div>
-    </div>
-  </section>
+<div id="message">I LOVE YOU SO MUCH BABE! ❤️</div>
 
-  <!-- About -->
-  <section id="about" class="about">
-    <h3>About</h3>
-    <p>
-      I’m a designer who values simplicity, typography,
-      and thoughtful interaction.
-    </p>
-  </section>
+<script>
+let yesBtn = document.getElementById("yesBtn");
+let noBtn = document.getElementById("noBtn");
+let message = document.getElementById("message");
+let title = document.getElementById("title");
 
-  <!-- Contact -->
-  <section id="contact" class="contact">
-    <h3>Let’s work and design together</h3>
-    <p>kimanton@email.com</p>
-  </section>
+let size = 20;
+let clickCount = 0;
 
-  <!-- Footer -->
-  <footer>
-    <p>© 2026 Kim Anton Banas</p>
-  </footer>
+const texts = [
+    "Are you sure?",
+    "Think about it",
+    "Please?",
+    "Really sure?",
+    "Don’t break my heart 💔",
+    "Last chance!",
+    "Pretty please? 🥺"
+];
+
+noBtn.addEventListener("click", function () {
+    // Grow YES button
+    size += 8;
+    yesBtn.style.fontSize = size + "px";
+    yesBtn.style.padding = (size/2) + "px " + size + "px";
+
+    // Change YES text
+    yesBtn.innerText = texts[clickCount % texts.length];
+    clickCount++;
+
+    // Move NO button randomly
+    let x = Math.random() * (window.innerWidth - 100);
+    let y = Math.random() * (window.innerHeight - 50);
+    noBtn.style.left = x + "px";
+    noBtn.style.top = y + "px";
+});
+
+yesBtn.addEventListener("click", function () {
+    // Change background to heart
+    document.body.classList.add("heart-bg");
+
+    // Hide buttons and title
+    yesBtn.style.display = "none";
+    noBtn.style.display = "none";
+    title.style.display = "none";
+
+    // Show message
+    message.style.display = "block";
+});
+</script>
 
 </body>
 </html>
