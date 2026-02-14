@@ -3,11 +3,13 @@
 <head>
 <meta charset="UTF-8">
 <title>Be My Valentine</title>
+<audio id="bgMusic" src="music/Daniel Caesar - Always (Official Audio) (mp3cut.net).mp3" loop></audio>
+
 
 <style>
     body {
         font-family: Arial, sans-serif;
-        background: #ffccd5;
+        background: #ed6981;
         text-align: center;
         overflow: hidden;
         margin-top: 120px;
@@ -15,7 +17,7 @@
     }
 
     h1 {
-        color: #c9184a;
+        color: white;
         font-size: 42px;
     }
 
@@ -68,6 +70,70 @@
         opacity: 0.25;
         z-index: -1;
     }
+    /* ROSE PETALS */
+.petal {
+    position: fixed;
+    top: -50px;
+    font-size: 24px;
+    pointer-events: none;
+    animation: fall linear forwards;
+    z-index: 0;
+}
+
+@keyframes fall {
+    0% {
+        transform: translateY(0) rotate(0deg);
+        opacity: 1;
+    }
+    100% {
+        transform: translateY(110vh) rotate(360deg);
+        opacity: 0;
+    }
+}
+
+/* COUPLE PHOTO */
+#couplePhoto {
+    position: fixed;
+    top: 50%;
+    right: 8%; /* change to left: 8%; if you want it on the left side */
+    transform: translateY(-50%);
+    width: 260px;
+    border-radius: 20px;
+    border: 8px solid white;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+    display: none;
+    animation: fadeIn 2s ease forwards;
+    z-index: 1;
+}
+
+/* Soft fade animation */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-50%) scale(0.8);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(-50%) scale(1);
+    }
+}
+
+/* COUPLE SLIDESHOW */
+#coupleSlideshow {
+    position: fixed;
+    top: 60%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 200px;
+    border-radius: 20px;
+    border: 8px solid white;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+    display: none;
+    opacity: 0;
+    transition: opacity 1s ease;
+    z-index: 1;
+}
+
 </style>
 </head>
 
@@ -79,6 +145,7 @@
 <button id="noBtn" class="btn">No</button>
 
 <div id="message">I LOVE YOU SO MUCH BABE! ❤️</div>
+<img id="coupleSlideshow">
 
 <script>
 let yesBtn = document.getElementById("yesBtn");
@@ -116,7 +183,67 @@ noBtn.addEventListener("click", function () {
     noBtn.style.top = y + "px";
 });
 
+const couplePhotos = [
+    "images/photo_1.jpg",
+    "images/photo_2.jpg",
+    "images/photo_3.jpg",
+    "images/photo_4.jpg"
+];
+
+let coupleIndex = 0;
+
+function startCoupleSlideshow() {
+    const slideshow = document.getElementById("coupleSlideshow");
+    slideshow.style.display = "block";
+
+    // Show first image
+    slideshow.src = couplePhotos[coupleIndex];
+    slideshow.style.opacity = 1;
+
+    setInterval(() => {
+        slideshow.style.opacity = 0;
+
+        setTimeout(() => {
+            coupleIndex = (coupleIndex + 1) % couplePhotos.length;
+            slideshow.src = couplePhotos[coupleIndex];
+            slideshow.style.opacity = 1;
+        }, 500);
+
+    }, 3000); // changes every 3 seconds
+}
+
 yesBtn.addEventListener("click", function () {
+
+    function startPetals() {
+    setInterval(() => {
+        let petal = document.createElement("div");
+        petal.classList.add("petal");
+        petal.innerHTML = "🌹";
+
+        // Random horizontal position
+        petal.style.left = Math.random() * 100 + "vw";
+
+        // Random size
+        petal.style.fontSize = (20 + Math.random() * 20) + "px";
+
+        // Random fall duration
+        petal.style.animationDuration = (4 + Math.random() * 3) + "s";
+
+        document.body.appendChild(petal);
+
+        // Remove after animation
+        setTimeout(() => {
+            petal.remove();
+        }, 7000);
+
+    }, 250);
+}
+
+    // Play music
+    let music = document.getElementById("bgMusic");
+    music.volume = 0.6;
+    music.play();
+
     // Change background to heart
     document.body.classList.add("heart-bg");
 
@@ -127,7 +254,14 @@ yesBtn.addEventListener("click", function () {
 
     // Show message
     message.style.display = "block";
+
+    // Start couple slideshow
+    startCoupleSlideshow();
+    // Start falling rose petals
+    startPetals();
+
 });
+
 </script>
 
 </body>
